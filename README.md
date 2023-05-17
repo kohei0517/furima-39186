@@ -11,24 +11,23 @@
 
 ## users テーブル
 
-| Column             | Type   | Options     |validate|
-| ------------------ | ------ | ----------- |--------|
-| email              | string | null: false |UNIQUE  |
-| encrypted_password | string | null: false |        |
-| nickname           | string | null: false |        |
-| name               | string | null: false |        |
-| F_name             | string | null: false |        |
-| name_kana         | string | null: false |        |
-| F_name_kana        | string | null: false |        |
-| birthday_y         | string | null: false |        |
-| birthday_m         | string | null: false |        |
-| birthday_d         | string | null: false |        |
+| Column             | Type   | Options                   |
+| ------------------ | ------ | ------------------------- |
+| email              | string | null: false ,UNIQUE: true |
+| encrypted_password | string | null: false               |
+| nickname           | string | null: false               |
+| name               | string | null: false               |
+| f_name             | string | null: false               |
+| name_kana          | string | null: false               |
+| f_name_kana        | string | null: false               |
+| birthday           | date   | null: false               |
 
 
 
 ### Association
 
 - has_many :items
+- has_many :buys
 
 ## items テーブル
 
@@ -36,11 +35,11 @@
 | ----------- | ---------- | ------------------------------ |
 | title       | string     | null: false                    |
 | description | text       | null: false                    |
-| category    | text       | null: false                    |
-| state       | string     | null: false                    |
-| how_match   | string     | null: false                    |
-| where       | string     | null: false                    |
-| while       | string     | null: false                    |
+| category_id | integer    | null: false                    |
+| state_id    | integer    | null: false                    |
+| payed_id    | integer    | null: false                    |
+| area_id     | integer    | null: false                    |
+| progress_id | integer    | null: false                    |
 | price       | string     | null: false                    |
 | user        | references | null: false, foreign_key: true |
 
@@ -49,27 +48,30 @@
 
 - belongs_to :user
 
-## buy テーブル
+## buys テーブル
 
 | Column    | Type       | Options                        |
 | --------- | ---------- | ------------------------------ |
 | cardnum   | text       |                                |
 | until     | string     |                                |
 | s_code    | integer    |                                |
+| user      | references | null: false, foreign_key: true |
 
 ### Association
 
 - has_one :buyer
+- belongs_to :user
 
-## buyer テーブル
-| Column     | Type    | Options                   |
-| ---------- | ------- | ------------------------- |
-| zip_code   | string  | null: false               |
-| prefecture | string  | null: false               |
-| city       | string  | null: false               |
-| address    | string  | null: false               |
-| building   | string  |                           |
-| phone      | integer | null: false               |
+
+## buyers テーブル
+| Column     | Type       | Options                        |
+| ---------- | ---------- | ------------------------------ |
+| zip_code   | string     | null: false                    |
+| area_id    | integer    | null: false                    |
+| city       | string     | null: false                    |
+| address    | string     | null: false                    |
+| building   | string     |                                |
+| phone      | string     | null: false                    |
 | buy        | references | null: false, foreign_key: true |
 
 
