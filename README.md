@@ -13,7 +13,7 @@
 
 | Column             | Type   | Options                   |
 | ------------------ | ------ | ------------------------- |
-| email              | string | null: false ,UNIQUE: true |
+| email              | string | null: false ,unique: true |
 | encrypted_password | string | null: false               |
 | nickname           | string | null: false               |
 | name               | string | null: false               |
@@ -48,15 +48,11 @@
 
 - belongs_to :user
 - has_one :buy
-- has_one :buyer
 
 ## buys テーブル
 
 | Column    | Type       | Options                        |
 | --------- | ---------- | ------------------------------ |
-| cardnum   | text       |                                |
-| until     | string     |                                |
-| s_code    | integer    |                                |
 | user      | references | null: false, foreign_key: true |
 | item      | references | null: false, foreign_key: true |
 
@@ -78,13 +74,11 @@
 | address    | string     | null: false                    |
 | building   | string     |                                |
 | phone      | string     | null: false                    |
-| item       | references | null: false, foreign_key: true |
 | buy        | references | null: false, foreign_key: true |
 
 
 ### Association
 
-- belongs_to :items
 - belongs_to :buy
 
 * ...
