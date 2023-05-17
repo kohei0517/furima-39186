@@ -40,13 +40,15 @@
 | payed_id    | integer    | null: false                    |
 | area_id     | integer    | null: false                    |
 | progress_id | integer    | null: false                    |
-| price       | string     | null: false                    |
+| price       | integer    | null: false                    |
 | user        | references | null: false, foreign_key: true |
 
 
 ### Association
 
 - belongs_to :user
+- has_one :buy
+- has_one :buyer
 
 ## buys テーブル
 
@@ -56,11 +58,15 @@
 | until     | string     |                                |
 | s_code    | integer    |                                |
 | user      | references | null: false, foreign_key: true |
+| item      | references | null: false, foreign_key: true |
+
 
 ### Association
 
-- has_one :buyer
 - belongs_to :user
+- belongs_to :item
+- has_one :buyer
+
 
 
 ## buyers テーブル
@@ -72,11 +78,13 @@
 | address    | string     | null: false                    |
 | building   | string     |                                |
 | phone      | string     | null: false                    |
+| item       | references | null: false, foreign_key: true |
 | buy        | references | null: false, foreign_key: true |
 
 
 ### Association
 
+- belongs_to :items
 - belongs_to :buy
 
 * ...
