@@ -1,4 +1,6 @@
 class ItemsController < ApplicationController
+  before_action :go_root ,only: :new
+
   def index
     
   end
@@ -22,4 +24,9 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:title, :description, :category_id, :state_id, :payed_id, :area_id, :progress_id, :price, :image).merge(user_id: current_user.id)
   end
 
+  def go_root
+    unless user_signed_in?
+      redirect_to action: :index
+    end
+  end
 end

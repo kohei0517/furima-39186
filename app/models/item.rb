@@ -9,7 +9,8 @@ class Item < ApplicationRecord
 
 
   validates :title, :description, :price, presence: true
-#  validates :image, attached_file_presence: true
+  validates :price, presence: true, format: { with: /\A[0-9]+\z/ }, numericality: true, inclusion: { in: 300..9_999_999 }
+  validates :image, presence: true
   validates :category_id, numericality: { other_than: 1 ,message: "can't be blank"}
   validates :state_id, numericality: { other_than: 1 ,message: "can't be blank"}
   validates :payed_id, numericality: { other_than: 1 ,message: "can't be blank"}
