@@ -8,7 +8,8 @@ class Item < ApplicationRecord
   belongs_to :state
 
 
-  validates :title, :description, :price, presence: true
+  validates :title,  length: { maximum: 40 }, presence: true
+  validates :description,  length: { maximum: 1000 }, presence: true
   validates :price, presence: true, format: { with: /\A[0-9]+\z/ }, numericality: true, inclusion: { in: 300..9_999_999 }
   validates :image, presence: true
   validates :category_id, numericality: { other_than: 1 ,message: "can't be blank"}
