@@ -39,28 +39,28 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Description is too long (maximum is 1000 characters)")
       end
-      it 'カテゴリーが必須であること' do
-        @item.category_id = ""
+      it 'カテゴリーのIDが2以上が必須であること' do
+        @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
-      it '商品の状態が必須であること' do
-        @item.state_id = ""
+      it '商品の状態のIDが2以上が必須であること' do
+        @item.state_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("State can't be blank")
       end
-      it '配送料の負担が必須であること' do        
-        @item.payed_id = ""
+      it '配送料の負担のIDが2以上が必須であること' do        
+        @item.payed_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Payed can't be blank")
       end
-      it '発送元の地域が必須であること' do
-        @item.area_id = ""
+      it '発送元の地域のIDが2以上が必須であること' do
+        @item.area_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Area can't be blank")
       end
-      it "発送までの日数が必須であること" do
-        @item.progress_id = ""
+      it "発送までの日数のIDが2以上が必須であること" do
+        @item.progress_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Progress can't be blank")
       end
