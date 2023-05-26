@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :go_root ,only: :new
+  before_action :go_signin ,only: :new
 
   def index
     
@@ -24,9 +24,9 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:title, :description, :category_id, :state_id, :payed_id, :area_id, :progress_id, :price, :image).merge(user_id: current_user.id)
   end
 
-  def go_root
+  def go_signin
     unless user_signed_in?
-      redirect_to action: :index
+      redirect_to new_user_session_path
     end
   end
 end
