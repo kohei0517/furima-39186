@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :go_signin ,only: :new
 
   def index
-    
+    @items = Item.all.order("created_at DESC")
   end
 
   def new
