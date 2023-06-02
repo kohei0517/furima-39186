@@ -7,6 +7,7 @@ class Item < ApplicationRecord
   belongs_to :progress
   belongs_to :state
 
+  has_many :buys
 
   validates :title,  length: { maximum: 40 }, presence: true
   validates :description,  length: { maximum: 1000 }, presence: true
