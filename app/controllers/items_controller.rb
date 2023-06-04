@@ -2,9 +2,11 @@ class ItemsController < ApplicationController
   before_action :go_signin ,only: :new
   before_action :call_item, only: [ :show, :edit, :update, :destroy]
   before_action :equal_user, only: [ :edit, :destroy ]
+  before_action :sold_out_exit, only: :edit
 
   def index
     @items = Item.all.order("created_at DESC")
+    @buys  = Buy.all
   end
 
   def new
@@ -12,6 +14,7 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @buy = Buy.where(item_id: @item.id)
   end
 
   def create
@@ -57,6 +60,13 @@ class ItemsController < ApplicationController
 
   def equal_user
     unless current_user.id == @item.user.id
+      redirect_to root_path
+    end
+  end
+
+  def sold_out_exit
+    @buy = Buy.where(item_id: @item.id)
+    unless @buy == []
       redirect_to root_path
     end
   end
