@@ -1,6 +1,6 @@
 class BuyersController < ApplicationController
   before_action :authenticate_user!, only: :index
-  before_action :call_item_b, only: :index
+  before_action :call_item_b, only: [:index, :create]
   before_action :exhibitor_exit, only: :index
   before_action :sold_out_exit, only: :index
 
@@ -11,6 +11,7 @@ class BuyersController < ApplicationController
   def create
     @buy_buyer = BuyBuyer.new(buy_params)
     if @buy_buyer.valid?
+      pay_item
       @buy_buyer.save
       redirect_to root_path
     else
@@ -22,7 +23,7 @@ class BuyersController < ApplicationController
   private
 
   def buy_params
-    params.require(:buy_buyer).permit(:zip_code, :area_id, :city, :address, :building, :phone).merge(user_id: current_user.id, item_id: params[:item_id])
+    params.require(:buy_buyer).permit(:zip_code, :area_id, :city, :address, :building, :phone).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token], price: @item.price)
   end
 
   def call_item_b
@@ -40,6 +41,15 @@ class BuyersController < ApplicationController
     unless @buy == []
       redirect_to root_path
     end
+  end
+
+  def pay_item
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp::Charge.create(
+      amount: buy_params[:price],
+      card: buy_params[:token],
+      currency: 'jpy' 
+    )
   end
 
 end
