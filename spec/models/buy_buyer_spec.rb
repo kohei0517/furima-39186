@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe BuyBuyer, type: :model do
   before do
-#    user = FactoryBot.create(:user)
     item = FactoryBot.create(:item)
     @buy_buyer = FactoryBot.build(:buy_buyer, user_id: item.user_id, item_id: item.id)
     sleep(0.1)
