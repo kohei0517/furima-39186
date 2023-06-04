@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe BuyBuyer, type: :model do
   before do
-    @buy_buyer = FactoryBot.build(:buy_buyer)
+#    user = FactoryBot.create(:user)
+    item = FactoryBot.create(:item)
+    @buy_buyer = FactoryBot.build(:buy_buyer, user_id: item.user_id, item_id: item.id)
+    sleep(0.1)
   end
 
 
@@ -19,7 +22,7 @@ RSpec.describe BuyBuyer, type: :model do
 
     context '内容に問題がある場合' do
       it "トークン情報がなければ保存ができないこと" do
-        @buy_buyer.token = ""
+        @buy_buyer.token = nil
         @buy_buyer.valid?
         expect(@buy_buyer.errors.full_messages).to include("Token can't be blank")
       end
@@ -58,18 +61,28 @@ RSpec.describe BuyBuyer, type: :model do
         @buy_buyer.valid?
         expect(@buy_buyer.errors.full_messages).to include("Phone can't be blank")
       end
-      it "電話番号が8桁以下だと保存出来ない" do
+      it "電話番号が9桁以下だと保存出来ない" do
         @buy_buyer.phone = "12345678"
         @buy_buyer.valid?
         expect(@buy_buyer.errors.full_messages).to include("Phone is invalid")
       end
-      it "ユーザーがいないと保存出来ない" do
-        @buy_buyer.user_id = ""
+      it "電話番号が12桁以上では購入できない" do
+        @buy_buyer.phone = "123456789012"
+        @buy_buyer.valid?
+        expect(@buy_buyer.errors.full_messages).to include("Phone is invalid")
+      end
+      it "電話番号に半角数字以外が含まれている場合は購入できない" do
+        @buy_buyer.phone = "A1234567890"
+        @buy_buyer.valid?
+        expect(@buy_buyer.errors.full_messages).to include("Phone is invalid")
+      end
+        it "ユーザーがいないと保存出来ない" do
+        @buy_buyer.user_id = nil
         @buy_buyer.valid?
         expect(@buy_buyer.errors.full_messages).to include("User can't be blank")
       end
       it "アイテムがいないと保存出来ない" do
-        @buy_buyer.item_id = ""
+        @buy_buyer.item_id = nil
         @buy_buyer.valid?
         expect(@buy_buyer.errors.full_messages).to include("Item can't be blank")
       end
